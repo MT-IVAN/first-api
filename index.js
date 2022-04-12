@@ -29,9 +29,32 @@ app.post("/bikers", (req, res)=>{
 
 
 // modificar su moto
-
+app.put("/bikers/:dang?", (req, res)=>{
+    const newBiker = req.body;
+    console.log(req.params);
+    if(newBiker.name && newBiker.bike){
+        const index = bikers.findIndex( biker => biker.name === newBiker.name)
+        if (index >= 0){
+            bikers[index].bike = newBiker.bike;
+            return res.status(201).send(bikers);
+        }else{
+            return res.status(404).send(bikers);
+        }
+    }
+})
 // eliminar un biker
-
+app.delete("/bikers", (req, res) => {
+    const newBiker = req.body;
+    if(newBiker.name){
+        const index = bikers.findIndex( biker => biker.name === newBiker.name)
+        if (index >= 0){
+            bikers.splice(index,1);
+            return res.status(201).send(bikers);
+        }else{
+            return res.status(404).send(bikers);
+        }
+    }
+})
 
 
 app.listen(3000, ()=>{
